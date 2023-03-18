@@ -228,3 +228,534 @@ class DatabaseChannel extends Channel{
 
 ```
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679054143532-3ceb135f-e42e-49f0-822f-56cbbaef8899.png#averageHue=%23fbfaf9&clientId=u77046ff1-f550-4&from=paste&height=230&id=u5dff96a2&name=image.png&originHeight=288&originWidth=742&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=29845&status=done&style=none&taskId=ufd8fd4c8-3556-4aeb-a5cf-cd632738758&title=&width=593.6)
+<a name="CoMvw"></a>
+## 11、Object类
+在Java中只有一个类是不存在有继承关系的，这个类就是`Object`，也就是说所有的类默认情况下都是`Object子类`，以下两种类的定义效果完全相同：
+```java
+class Person{}
+class Person extends Object{}
+```
+在`Object`设计的时候考虑到了所有的继承问题，所以该类提供有`无参构造方法`，所以子类不会出现构造方法调用失败的语法错误。<br />如果一个程序的方法要求可以接受所有类对象的时候就可以利用`Object`实现处理<br />`Object`类对象可以接受所有数据类型，包括**基本数据类型、类对象、接口对象、数组。**<br />**获取对象信息：**`toString()`<br />`toString()`是`Object`类提供的一个方法，可以获取一个对象的完整信息：
+```java
+Person per = new Person();
+System.out.println(per);//结果为Person@6dle7682，默认使用toString方法。
+System.out.println(per.toString());//结果为Person@6dle7682，Object类继承而来。
+
+```
+可以直接在对象类中重写此方法：
+```java
+public String toString(){
+    return "姓名："+ this.name + "、年龄：" + this.age;
+}
+
+```
+<a name="XGCTt"></a>
+## 12、抽象类
+**基本定义：**抽象类的主要作用在于对子类中覆写方法进行约定，在抽象类里面可以去定义一些抽象方法以实现这样的约定，抽象方法指的是使用了`abstract`关键字定义的并且没有提供方法体的实体，而抽象方法所在的类必须为抽象类，抽象类必须使用`abstract`关键字来定义（在普通方法基础上追加抽象方法就是抽象类）<br />当一个抽象类定义完成之后（抽象类不是完整的类），如果想要去**使用抽象类**，就必须满足以下条件：
+
+- 抽象类必须提供有子类，子类使用`extends`继承一个抽象类
+- 抽象类的子类（不是抽象类）一定要覆写抽象类中的全部抽象方法
+- 抽象类的对象实例化可以利用对象多态性通过子类向上转型的方法完成
+
+**抽象类自己无法直接实例化**
+
+1. 抽象类中允许没有抽象方法，但即便没有抽象方法，也**无法直接使用关键字new实例化抽象类对象。**
+2. 抽象类中**可以提供有static方法，**并且该方法不受到抽象类对象的局限
+3. 在定义抽象类的时候绝对**不能使用final关键字**来定义，因为抽象类必须有子类，而final定义的类是不能有子类
+
+抽象类最大的好处：一是对子类方法的统一管理，二是可以自身提供有一些普通方法可以调用抽象方法（这些抽象方法必须在有子类提供实现的时候才会生效）
+<a name="NcSB7"></a>
+## 13、接口
+**接口使用原则：**
+
+- 接口需要被子类实现（`implements`），一个子类可以实现多个父级接口
+- 子类（如果不是抽象类），那么一定要覆写接口之中的全部抽象方法
+- 接口对象可以利用子类对象的向上转型进行实例化
+
+注意：由于接口描述的是一个公共的定义标准所有在接口之中所有的抽象方法的访问权限都为`public`<br />**先继承后实现：**
+```java
+class MessageImpl extends Database implements IMessage
+
+```
+特点：全部由抽象方法和全局变量所组成
+<a name="aaxNe"></a>
+### 抽象类与接口的区别
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679116826749-e705f42e-8667-4c59-a85a-999472f31bda.png#averageHue=%23faf9f8&clientId=ud79ad3fc-1a4b-4&from=paste&height=301&id=uaf0d3fed&name=image.png&originHeight=301&originWidth=569&originalType=binary&ratio=1&rotation=0&showTitle=false&size=33206&status=done&style=none&taskId=u7573c93f-8bcc-49f2-b2bd-e20cad0f9b1&title=&width=569)
+
+1. 抽象类可以有构造方法，接口中不能有构造方法
+2. 抽象类中可以有普通成员变量，接口中没有普通成员变量
+3. 抽象类中可以包含非抽象的普通方法，接口中的所有方法必须都是抽象的，不能有非抽象的普通方法
+4. 抽象类中的抽象方法的访问类型可以是`public`、`protected`，但接口中的抽象方法只能是`public`，并且默认为`public abstract`
+5. 抽象类中可以包含静态方法，接口中不能包含静态方法
+6. 抽象类和接口中都可以包含静态成员变量，抽象类中的静态成员变量的访问类型可以任意，但接口中定义的变量只能是`public static final`，并且默认为`public final`
+
+共同点：
+
+1. 抽象类或接口必须定义子类
+2. 子类一定要覆盖抽象类或接口中的全部抽象方法
+3. 通过子类的向上转型实现抽象类或接口对象实例化
+
+注意：当抽象类和几口都可以使用的情况下有限要考虑接口，因为接口可以避免子类的单继承局限
+<a name="vWpyd"></a>
+### 为什么MVC中我们用接口不用抽象类？
+抽象类被定义为永远也不能被实例化为具体的对象。它往往用于定义一种抽象上的概念，在类的继承关系中它往往被定义为较上层的位置。在程序设计的实践中，抽象类与接口存在类似的地方，即它更偏重与对共通的方法和属性进行规约。但与接口存在一个非常打的差异则在原，抽象类往往可以规约一个共同的方法和属性时提供一个对他们的实现。以现实世界为例：“水果”可以算作一个抽象类，而“苹果”等则可以作为它的派生类。区别在于，“水果”是个概念，不会有实例，但是“苹果”等则会有实例。
+<a name="aibkW"></a>
+## 14、泛型
+在没有泛型的情况下，通过对类型`Object`的引用类实现参数的“任意化”，“任意化”带来的缺点是要做显式的强制类型转换，而这种转换是要求开发者对实际参数类型可以预知的情况下进行的。对于强制类型转换错误的情况，编译器可能不提示错误，在运行的时候才出现异常，这本身就是一个安全隐患。<br />本质：把类型明确的工作推迟到创建对象或调用方法的时候采取明确的特殊的类型。<br />注意：泛型之中只允许设置引用类型，如果要操作基本类型必须使用包装类。
+```java
+/*
+    1:把泛型定义在类上
+    2:类型变量定义在类上,方法中也可以使用
+ */
+public class ObjectTool<T> {
+    private T obj;
+
+    public T getObj() {
+        return obj;
+    }
+
+    public void setObj(T obj) {
+        this.obj = obj;
+    }
+}
+
+ //创建对象并指定元素类型
+ObjectTool<Integer> tool = new ObjectTool<Integer>();
+
+```
+使用泛型可以解决大部分的类对象的强制转换处理，避免了对象的向下转型处理<br />好处：
+
+- 代码更加简洁（不强转）
+- 程序更加健壮（只要编译没警告，运行就不会出现`ClassCastException）`
+- 可读性和稳定性（在写集合的时候，就限定了类型）
+<a name="E5pqE"></a>
+### 增强for遍历集合
+在创建集合的时候，我们明确了集合的类型，所以我们可以使用增强for来遍历集合
+```java
+        //创建集合对象
+        ArrayList<String> list = new ArrayList<>();
+
+        list.add("hello");
+        list.add("world");
+        list.add("java");
+
+        //遍历,由于明确了类型.我们可以增强for
+        for (String s : list) {
+            System.out.println(s);
+        }
+
+```
+<a name="sLF9c"></a>
+###  通配符
+通配符“?”只能调用与对象无关的方法，不能调用对象与类型有关的方法。因为直到外界使用才知道具体的类型是什么。也就是说，我是不能使用add()方法的。因为add()方法是把对象丢尽集合中，而现在我是不知道对象的类型是什么
+```java
+public void test(List<?> list){
+    for(int i=0;i<list.size();i++){
+        System.out.println(list.get(i));
+    }
+}
+
+```
+?和T都表示不确定的类型，区别在于我们可以对T进行操作，但是对?不行
+```java
+//指定集合元素只能是T类型
+List<T> list = new ArrayList<T>();
+//集合元素可以是任意类型，这种没有意义，一般是方法中，实施未来说明用法
+List<?> list = new ArrayList<?>();
+
+```
+总结：T是一个确定的类型，通常用于泛型类和泛型方法的定义，?是一个而不确定的类型，通常用于泛型方法的调用代码和形参，不能用于定义类和泛型方法。<br />在?这个通配符的基础上还提供有两类晓得通配符
+
+- ? extends ：设置泛型的上限
+```java
+  |- 例如：定义“？ extends Number”:表示该泛型类型只允许设置Number或Number的子类；
+
+```
+
+- ? super ：设置泛型的下限
+```java
+定义“？ super Number”:只能够使用String或其父类。
+
+```
+区别：上界通配符主要用于读数据，下界通配符主要用于写数据
+<a name="SV1An"></a>
+## 15、包装类
+包装原因：`Object`类最大的特点就是所有的类的父类，并且可以接受所有的数据类型，但是在这个过程中就有个问题：基本数据类型并不是一个类，所以现在如果想将基本数据类型以类的形式进行处理，那么就需要对其进行包装。<br />Java中的基本数据类型没有方法和属性，而包装类就是为了让这些拥有方法和属性，实现对象化交互
+
+- **装箱：**基本数据类型转换为包装类
+- **拆箱：**包装类转换为基本数据类型
+1. 通过包装类`Integer.toString()`将整型转换为字符串
+2. 通过`Integer.parseInt()`将字符串转换为int类型
+3. 通过`valueOf()`方法把字符串转换为包装类然后通过自动拆箱
+```java
+ public static void main(String[] args) {
+         //基本数据类型转换为字符串
+         int t1=12;
+         String t2=Integer.toString(t1);
+         System.out.println("int转换为String："+t2);
+         //字符串转换为基本数据类型
+         //通过paerInt方法
+         int t3=Integer.parseInt(t2);
+         //通过valeOf,先把字符串转换为包装类然后通过自动拆箱
+         int t4=Integer.valueOf(t2);
+         System.out.println("t3:"+t3);
+         System.out.println("t4:"+t4);
+}
+
+```
+<a name="kxqV9"></a>
+## 16、枚举
+主要作用是用于定义有限个对象的一种结构，枚举属于多例设计。<br />使用`enum关键字`来定义枚举类型，其中`FRONT``BEHIND``LEFT``RIGHT`都是枚举项，他们都是本类的实例，本类一共就四个实例对象：
+```java
+public enum Direction {
+    FRONT, 
+    BEHIND, 
+    LEFT, 
+    RIGHT("红色");
+}
+Direction d = Direction.FRONT;
+
+```
+不能使用new来创建枚举类的对象，因为枚举类中的实例就是类中的枚举项，所以在类外只能使用`类名.枚举项`
+<a name="n9duq"></a>
+### 枚举与switch
+在`switch`中，**不能使用枚举类名称。**
+```java
+Direction d = Direction.FRONT;
+  switch(d) {
+    case FRONT: System.out.println("前面");break;
+    case BEHIND:System.out.println("后面");break;
+    case LEFT:  System.out.println("左面");break;
+    case RIGHT: System.out.println("右面");break;
+    default:System.out.println("错误的方向");
+}
+Direction d1 = d;
+System.out.println(d1);
+
+```
+请解释`enum`和`Enum`的区别？
+
+- `enum`：是从JDK1.5之后提供的一个关键字，用于定义枚举类
+- `Enum`：是一个抽象类，所以使用`enum`的类就默认继承了此类
+<a name="ivMoY"></a>
+## 17、异常
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679118626983-f8777eb0-8cbe-4bcc-a149-577845ffea0b.png#averageHue=%23f9f3ed&clientId=ud79ad3fc-1a4b-4&from=paste&height=433&id=uf9702e3e&name=image.png&originHeight=433&originWidth=831&originalType=binary&ratio=1&rotation=0&showTitle=false&size=130873&status=done&style=none&taskId=u13d5ffec-cc48-494f-a30e-4227c70aa9f&title=&width=831)<br />出现异常以后将终止整个程序。为了保证程序出现了非致命错误之后程序依然可以正常运行，所以需要有一个完善的异常处理机制
+<a name="bIg8w"></a>
+### 处理异常
+在Java中进行异常的处理：`try`、`catch`、`finally`
+```java
+try{
+    //可能出现异常的语句
+}[catch(异常类型 异常对象){
+    //异常处理
+}catch(异常类型 异常对象){
+    //异常处理
+}catch(异常类型 异常对象){
+    //异常处理
+}...][finally{
+    不管异常是否处理都要执行;
+}]
+
+```
+除此之外，可用的组合有：`try...catch``try...catch...finally``try...finally`<br />如果想要获得非常完整的异常信息，则可以使用异常类中提供的`printStackTrace()`方法<br />对于异常的处理格式也可以在最后追加一个`finally`程序块，表示异常处理后的出口，**不管是否出现异常都要执行。**<br />注意：
+
+- **即便有了异常处理语句，但是如果没有进行正确的异常捕获，那么程序也会导致中断（finally的代码依旧执行），这样的情况应该捕获多个异常**
+- **在以后进行多个异常同时处理的时候要把捕获范围大的异常放在捕获范围小的异常之后。**
+
+程序中可以处理的异常的最大的类型就是`Throwable`，而打开`Throwable`可以看到两个子类：
+
+- `Error`：此时程序还未执行出现的错误，开发者无法处理
+- `Exception`：程序中出现的异常，开发者可以处理
+<a name="SV4Kv"></a>
+### throws关键字
+
+- 使用`throws`关键字来进行异常类型的标注，必须有对应的`try...catch`处理
+- `throws`表示出现异常的一种可能性，并不一定会发生这些异常
+- 异常处理是会一层层往上抛的，直到遇到了某个方法处理了这个异常或者最后抛给了JVM
+```java
+class MyMath{
+    //这个代码执行的时候可能会产生异常，如果产生异常调用处理
+    public static int div(int x,int y) throws Exception{
+        return x/y;
+    }
+}
+public class JavaDemo{
+    public static void main(String args[]) throws Exception{
+        try{
+             System.out.println(MyMath.div(10,0));
+    } catch(Exception e){
+        e.printStackTrace();
+    }      
+  }
+}
+
+```
+如果主方法继续向上抛异常，那么就表示磁异常将交给JVM负责处理
+<a name="ybU0e"></a>
+### throw关键字
+表示手工进行异常的抛出，即：此时将手工产生一个异常类的实例化对象，并进行异常的抛出处理
+```java
+class MyMath{
+    //异常交给被调用处处理则一定要在方法上使用throws
+    public static int div(int x,int y) throws Exception{
+        int temp = 0;
+        System.out.println("***[START]除法计算开始。");
+        try{
+            temp = x / y;
+        } catch (Exception e){//这里的catch可省略，将会自动向上抛出异常
+            throw e;//向上抛出异常对象
+        } finally{
+            System.out.println("***[END]除法计算结束。");
+        }
+        return temp;
+    }
+}
+public class JavaDemo{
+    public static void main(String args[]){
+        try{
+            System.out.println(MyMath.div(10,0));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+}
+
+```
+**面试题：请解释throw和throws的区别？**
+
+- `throw`：是在代码块中使用的，主要是手工进行异常的抛出
+- `throws`：是在方法定义上使用的，表示将此方法中可能产生的一场明确告诉给调用处，由调用处进行处理
+- `throws`表示出现异常的一种可能性，并不一定会发生这些异常；`throw`则是抛出了异常，执行`throw`则一定抛出某些异常
+
+**面试题：请解释RuntimeException与Exception区别？常见的EuntimeException？**
+
+- `RuntimeException`是`Exception`的子类
+- `RuntimeException`标注的异常可以**不需要进行强制性try...catch处理。**而`Exception`异常必须进行强制性处理
+- 常见的`RuntimeException`异常：`NumberFormatException`、`ClassCastException`、`NullPointException`...
+<a name="CLnuh"></a>
+### 自定义异常类
+分为继承`Exception`和`RuntimeException`两种，如果继承的是`Exception`，则需要进行`try...catch`处理
+```java
+class BombException extends RuntimeException {
+    public BombException(String msg) {
+        super(msg);
+    }
+}
+class Food {
+    public static void eat(int num) throws BombException {
+        if(num > 10) {
+            throw new BombException("吃太多了，坏了，肚子要撑爆了。");
+        }else {
+            System.out.println("正常吃，不怕吃胖。");
+        }
+    }
+}
+public class JavaDemo {
+    public static void main(String args[]) throws Exception {
+        Food.eat(11);
+    }
+}
+
+```
+<a name="u13JS"></a>
+### assert断言
+从JDK1.4开始追加一个有断言的功能，确定代码执行到某行之后一定是所期待的结果。但断言不一定是准确的，也有可能出现误差，但是这种偏差不应该影响程序的正常执行
+```java
+public class JavaDemo {
+    public static void main(String args[]) throws Exception {
+        int x = 10;
+        //中间会经过许多的x变量的操作步骤
+        assert x == 100 : "x的内容不是100";
+        System.out.println(x);
+    }
+}
+
+```
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679119582440-e7dfdb94-9bb3-481a-bf6d-8b315a8d1766.png#averageHue=%23f9f8f7&clientId=ud79ad3fc-1a4b-4&from=paste&height=285&id=u4d151850&name=image.png&originHeight=285&originWidth=528&originalType=binary&ratio=1&rotation=0&showTitle=false&size=23470&status=done&style=none&taskId=ub0d8d9db-4491-43ae-952e-19950dae1c3&title=&width=528)
+<a name="XCmrH"></a>
+## 18、内部类
+将一个类定义在另一个类里面或者方法里面，这种类就被称为**内部类。**
+```java
+class Outer {  //外部类
+    private String msg = "www.mldn.cm";  //私有成员属性
+    public void fun() { //普通方法
+        Inner in  = new Inner();  //实例化内部类对象
+        in.print();  //调用内部类方法
+        System.out.println(in.info); //访问内部类的私有属性
+    }
+    class Inner {  //在Outer类的内部定义了Inner类
+        private String info = "今天天气不好，收衣服拉！";
+        public void print(){
+            System.out.println(Outer.this.msg);  //Outer里类中的属性
+        }
+    }
+}
+
+public class JavaDemo {
+    public static void main(String args[]) {
+        Outer out = new Outer();  //实例化外部类对象
+        out.fun();  //调用外部类中的方法
+    }
+}
+
+```
+
+- 内部类的优点：轻松的访问外部类中的私有属性
+- 缺点：破坏了程序的结构
+
+**注意：内部类可以轻松的访问外部类的私有属性，同理，外部类也可以轻松访问内部类中的私有成员或私有方法**<br />使用了内部类后，内部类与外部类之间的私有操作的访问就不再需要通过`setter`、`getter`以及其他的间接方式完成了，可以直接进行处理操作。<br />内部类本身也属于一个类，虽然大部分情况下内部类往往是被外部类包裹的，但是外部依然可以产生内部类的实例化对象，而此时实例化格式如下：<br />`外部类.内部类 内部类对象 = new 外部类().new 内部类()`
+```java
+class Outer {  //外部类
+    private String msg = "www.mldn.cn" ;  //私有成员属性
+    class Inner {  //在Outer类的内部定义了Inner类
+        public void print(){
+            System.out.println(Outer.this.msg);  //Outer类中的属性
+        }
+    }
+}
+public class Java Demo {
+    public static void main(String args[]){
+        Outer.Inner in = new Outer().new Inner();
+        in.print();
+    }
+}
+
+```
+<a name="eht6l"></a>
+### static定义内部类
+如果说现在在内部类使用了static定义，那么这个内部类就变了“外部类”，static定义的都是独立于类是一个结构，所以该类结构就相当于一个独立的程序类了。<br />**注意：static定义的不管是类还是方法只能够访问static成员，所以static定义的内部类只能访问外部类中的static属性和方法。**<br />这个时候的inner类是一个独立的类，如果此时想要实例化inner对象，只需要根据`外部类.内部类`的结构实例化对象即可，<br />`外部类.内部类 内部类对象 = new 外部类().内部类()`
+```java
+class Outer {
+    private static final String MSG = "www.mldn.cn";
+    static class Inner {
+        public void print() {
+            System.out.println(Outer.MSG);
+        }
+    }
+}
+public class JavaDemo {
+    public static void main(String args[]){
+        Outer.Inner in = new Outer.Inner();
+        in.print();
+    }
+}
+
+```
+<a name="zQ6GZ"></a>
+### 方法中定义内部类
+内部类可以直接访问外部类的私有属性，也可以直接访问方法中的参数，但是对于方法中的参数直接访问是从JDK1.8开始支持的，在JDK1.8之前，如果方法中定义的内部类要想访问方法中的参数则参数前必须追加final。
+```java
+class Outer {
+    private String msg = "www.mldn.cn" ;
+    public void fun(long time) {
+        class Inner { //内部类
+            public void print() {
+                System.out.println(Outer.this.msg);
+                System.out.println(time);
+            }
+        }
+        new Inner().print(); //方法中直接实例化内部类对象
+    }
+}
+public class JavaDemo {
+    public static void main(String args[]) {
+        new Outer().fun(23943342L);
+    }
+}
+
+```
+<a name="K2BnM"></a>
+### 匿名内部类
+匿名内部类是一种简化的内部类的处理形式，其主要是在抽象类和接口的子类上使用的。与内部类相比，匿名内部类只是一个没有名字的只能够使用一次的，并且结构固定的一个子类操作
+```java
+interface IMessage {
+    public void send(String str);
+}
+public class JavaDemo {
+    public static void main(String args[]) {
+        IMessage msg = new IMessage() {  //匿名内部类
+            public void send(String str) {
+                System.out.println(str);
+            }
+        };
+        msg.send("www.mldn.cn");
+    }
+}
+
+```
+<a name="ZHpqn"></a>
+## 19、基本数据类型和引用数据类型
+Java中的数据类型分为两大类，基本数据类型和引用数据类型。
+<a name="Xbs3L"></a>
+### 基本数据类型
+
+- 整型：`long``int``short``byte`
+- 浮点类型：`float``double`
+- 字符类型：`char`
+- 布尔类型：`boolean`
+
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679120334054-6b8fcc3e-3f3a-45e9-8f5f-540d6349a67d.png#averageHue=%23faf9f9&clientId=ud79ad3fc-1a4b-4&from=paste&height=632&id=u84f66795&name=image.png&originHeight=632&originWidth=512&originalType=binary&ratio=1&rotation=0&showTitle=false&size=41572&status=done&style=none&taskId=ua1fc0941-7c3a-4286-887f-0f3130833b8&title=&width=512)
+<a name="ZgdNj"></a>
+### 引用数据类型
+引用数据类型非常多，大致包括：类、接口类型、数组类型、枚举类型、注解类型、字符串型
+<a name="hyUoG"></a>
+### 基本数据类型和引用数据类型的区别
+1、存储位置
+
+- 基本数据类型：在方法中定义的非全局基本数据类型变量的具体内容存储在栈中
+- 引用数据来行：只要是引用数据类型，其具体内容都是存放在堆中的，而栈中存放的是其具体内容所在内存的地址
+
+2、传递方式
+
+- 基本变量类型：在方法中定义的非全局基本数据类型变量，调用方法时作为参数是按值传递的
+- 引用数据类型：调用方法时作为参数是引用传递的
+<a name="LldF2"></a>
+## 20、值传递和引用传递
+值传递指的是在方法调用时，传递的参数是按值的拷贝传递
+```java
+public static void main(String[] args) {
+    int a=1;
+    change(a);
+    System.out.println("交换a后的值:"+a);
+}
+
+private static void change(int a) {
+    a=1111;
+    System.out.println("交换方法里面的a:"+a);
+}
+//运行输出
+//交换方法里面的a:1111
+//交换a后的值:1
+//按值传递重要特点：传递的是值的拷贝，也就是说传递后就互不相关了。
+
+```
+引用传递指的是在方法调用时，传递的参数是按引用进行传递，其实传递的引用的地址，也就是变量所对应的内存空间的地址。
+```java
+public static void main(String[] args) {
+    Person p=new Person();
+    p.setAge(25);
+    changeAge(p);
+    System.out.println("改变年龄后的年龄:"+p.getAge());
+}
+
+private static void changeAge(Person p) {
+    p.setAge(35);
+    System.out.println("改变年龄方法里面的年龄:"+p.getAge());
+}
+//运行输出
+//改变年龄方法里面的年龄:35
+//改变年龄后的年龄:35
+
+class Person{
+    private int age=10;
+    public int getAge() {
+           return age;
+    }
+    public void setAge(int age) {
+           this.age = age;
+    }
+}
+
+```
+传递的是值的引用，也就是说传递前后都指向同一个引用（也就是同一个内存空间），引用类型的传递后的修改会影响原来的值。
+
