@@ -7,6 +7,6 @@
 - [Java基础](/Java基础/)
 - [Java集合](/Java集合/)
 - [Java并发](/Java-并发/)
-- [Java-IO](/Java IO/)
+- [Java-IO](/Java-IO/)
 - [数据结构](/数据结构/)
 - [计算机网络](/计算机网络/)
