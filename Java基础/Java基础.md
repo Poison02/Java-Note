@@ -758,4 +758,603 @@ class Person{
 
 ```
 传递的是值的引用，也就是说传递前后都指向同一个引用（也就是同一个内存空间），引用类型的传递后的修改会影响原来的值。
+<a name="Rl5Mc"></a>
+## 21、get和post请求的区别
+
+- get请求用来从服务器上获得资源，而post是用来向服务器提交数据
+- get将表单中数据按照`name=value`的形式，添加到action所指向的url后面，并且两者使用？连接，而各个变量之间使用&连接；post是将表单中的数据放在HTTP协议的请求头或消息体中，传递到action所指向的url
+- get传输的数据要受到url长度限制（1024字节）；而post可以传输大量的数据，上传文件通常要使用post方式
+- 使用get时参数会显示在地址栏上，如果这些数据不是敏感数据，那么使用get；对于敏感数据还是使用post
+- get请求只能接受url编码，而post请求支持多种编码
+- get只接受ascll字符，而post没有限制
+<a name="curzX"></a>
+## 22、请求转发和重定向
+`forward`又叫转发，`redirect`叫做重定向
+
+- 从地址栏显示来说
+   - `forward`是服务器内部的重定向，服务器直接访问目标地址的url网址
+   - `redirect`是服务器根据逻辑，发送一个状态码，告诉浏览器重新去请求那个地址，所以地址栏显示的是新的地址
+- 从数据共享来说
+   - `forward`会将request的信息带到被重定向的jsp或者servlet中使用。即可以共享数据
+   - `redirect`不能共享
+- 从效率来说
+   - `forward`效率高
+   - `redirect`效率低
+- 从本质来说
+   - `forward`转发是服务器上的行为
+   - `redirect`重定向是客户端的行为
+- 从请求次数来说
+   - `forward`只有一次请求
+   - `redirect`有两次请求
+<a name="Rak9N"></a>
+## 23、final关键字
+在Java中，`final`关键字可以用来修饰**类、方法和变量（包括成员变量和局部变量）**
+
+1. **修饰类**
+   1. 当用final修饰一个类时，表明这个类**不能被继承。**也就是说，如果一个类永远不会让他被继承，就可以使用final修饰
+2. **修饰方法**
+   1. 使用final方法的原因有两个。第一个原因是**把方法锁定，**以防任何继承类修改它的含义；第二个原因是**效率，**只有在想明确禁止该方法在子类中被覆盖的情况下才将方法设置为final的。
+3. **修饰变量**
+   1. 对于一个final变量，如果是**基本数据类型的变量，**则其数值一旦在初始化之后便**不能更改；**如果是**引用类型**的变量，则在其初始化之后便**不能再让其指向另一个对象，但是它指向的对象的内容是可变的。**
+<a name="WKvgL"></a>
+## 24、强引用、软引用、弱引用和虚引用的区别
+
+1. **强应用，**最普遍的一种引用方式，如`String s = "abc"`，变量s就是字符串"abc"的强引用，只要强引用存在，则垃圾回收器就不会回收这个对象
+2. **软引用，**用于描述还有用但非必须的对象，如果内存足够，不回收，如果内存不足，则回收。一般用于实现内存敏感的告诉缓存，软引用可以和引用队列`ReferenceQueue`联合使用，如果软引用的对象被垃圾回收，JVM就会把这个软引用加入到与之关联的引用队列中。
+3. **弱引用，**弱引用和软引用大致相同，弱引用和软引用的区别在于：只具有弱引用和对象拥有更短暂的生命周期。在垃圾回收器县城扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间是否足够，都会回收他的内存。短时间内通过弱引用取对应的数据，可以取到，当执行过第二次垃圾回收时，将返回null。弱引用主要用于监控对象时候已经被垃圾回收期标记为即将回收的垃圾，可以通过弱引用的`isEnQueued`方法返回对象是否被垃圾回收器标记。
+4. **虚引用，**就是形同虚设，与其他几种引用都不同，虚引用并不会决定对象的生命周期。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收器回收。虚引用主要用来跟踪对象被垃圾回收器回收的活动。虚引用与软引用和弱引用的一个区别在于：虚引用必须和引用队列联合使用。当垃圾回收器准备回收一个对象时，如果发现还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。
+<a name="gp5AG"></a>
+## 25、String类常用方法
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679202666544-59bb9b84-13ae-49ec-83c7-4e4a713474c1.png#averageHue=%23faf9f8&clientId=u150947cb-4235-4&from=paste&height=272&id=uf9f2c495&name=image.png&originHeight=272&originWidth=495&originalType=binary&ratio=1&rotation=0&showTitle=false&size=33099&status=done&style=none&taskId=ud8007804-53b9-4df0-9a84-683ff044c58&title=&width=495)
+```java
+public static void main(String[] args) {
+    String str = "helloworld";
+    char c=str.charAt(4); //charAt获取某一个指定索引位置的字符,从0开始
+    System.out.println(c); //输出"o"
+    char[] result=str.toCharArray();//将String转为字符存入数组中
+    System.out.println(Arrays.toString(result));
+    for (int i = 0; i < result.length; i++) {
+        result[i]-=32;//小写变大写，编码减少32
+    }
+    //将传入的全部字符数组变为字符串
+    String newStr = new String(result);
+    System.out.println(newStr);
+    //将部分字符数组变为字符串
+    System.out.println(new String(result,0,5));
+}
+/* 输出结果：
+o
+[h, e, l, l, o, w, o, r, l, d]
+HELLOWORLD
+HELLO
+*/
+
+```
+<a name="nivlt"></a>
+### 字符串比较方法
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679202722370-10fdb8b5-2b02-4f0e-86d7-7448664ab718.png#averageHue=%23faf9f9&clientId=u150947cb-4235-4&from=paste&height=324&id=ue61af01d&name=image.png&originHeight=324&originWidth=496&originalType=binary&ratio=1&rotation=0&showTitle=false&size=39803&status=done&style=none&taskId=ueddfb2b0-c699-402c-8832-a711b44a8c9&title=&width=496)
+```java
+String strA = "mldn";
+String strB = "mldN";
+System.out.println(strA.compareTo(strB)); // 32
+System.out.println(strB.compareTo(strA)); // -32
+System.out.println("Hello".compareTo("Hello")); // 0
+//忽略大小写
+System.out.println(strA.compareToIgnoreCase(strB)); // 0
+
+```
+<a name="bx5ce"></a>
+### 字符串查找
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679202759612-13f04e5c-6dc9-4a66-a9cb-846904c93aba.png#averageHue=%23faf9f8&clientId=u150947cb-4235-4&from=paste&height=500&id=u4b1ff284&name=image.png&originHeight=500&originWidth=500&originalType=binary&ratio=1&rotation=0&showTitle=false&size=67111&status=done&style=none&taskId=u76a69d04-a617-4c5c-9722-defedba43e8&title=&width=500)
+```java
+String str = "**@@www.mldn.cn##";
+//判断子字符串是否存在
+System.out.println(str.contains("mldn"));  //true
+//查找指定字符串的位置
+System.out.println(str.indexOf("w"));  //4
+//由后向前查找指定字符串的位置
+System.out.println(str.lastIndexOf("w"));  //6
+//判断是否以指定的字符串开头
+System.out.println(str.startsWith("**"));  //true
+//判断由指定位置判断是否以指定字符串开头
+System.out.println(str.startsWith("@@",2));  //true
+//判断是否以指定的字符串"##"结尾
+System.out.println(str.endsWith("##"));  //true
+
+```
+<a name="Kwne3"></a>
+### 字符串替换
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679202816910-0de6f87a-2433-48a3-b3b4-1e99fc62ba4b.png#averageHue=%23fbfaf9&clientId=u150947cb-4235-4&from=paste&height=160&id=u5d65db49&name=image.png&originHeight=160&originWidth=490&originalType=binary&ratio=1&rotation=0&showTitle=false&size=18863&status=done&style=none&taskId=u176f64fc-9941-4cc5-9a1b-6526178821c&title=&width=490)
+```java
+String str = "www.mldn.cn##";
+//将"w"全部替换为"X"
+System.out.println(str.replaceAll("w", "X"));  //XXX.mldn.cn##
+////将第一个"w"替换为"X"
+System.out.println(str.replaceFirst("w", "X")); //Xww.mldn.cn##
+
+```
+<a name="qbp0K"></a>
+### 字符串拆分
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679202801148-0dd1b07d-f65f-4b06-8e87-62fd70dca8d9.png#averageHue=%23fbfaf9&clientId=u150947cb-4235-4&from=paste&height=158&id=u1732809b&name=image.png&originHeight=158&originWidth=499&originalType=binary&ratio=1&rotation=0&showTitle=false&size=20212&status=done&style=none&taskId=udaee96ea-f122-4d46-b5ff-596fd85bc15&title=&width=499)
+```java
+String str = "hello world world mldn";
+//按空格将字符串全部拆分，以字符串数组形式返回
+String result[] = str.split(" "); 
+for (int x = 0; x < result.length; x++) {
+    System.out.println(result[x]);
+}
+/* hello
+ * world
+ * world
+ * mldn
+ * */
+//按空格将字符串拆分，截止第二个字符串
+String results[] = str.split(" ",2);
+for (int x = 0; x < results.length; x++) {
+    System.out.println(results[x]);
+}
+/*
+ * hello
+ * world world mldn
+ * */
+
+```
+遇到正则表达式拆不了的，需要使用转义字符`\\`
+```java
+String str = "192.168.1.2";
+//按空格将字符串全部拆分，以字符串数组形式返回
+String result[] = str.split("\\."); 
+for (int x = 0; x < result.length; x++) {
+    System.out.println(result[x]);
+}
+
+```
+<a name="F1Cqd"></a>
+### 字符串截取
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679202896966-103572f0-d44e-4999-94bb-2915b566a28a.png#averageHue=%23fbfaf9&clientId=u150947cb-4235-4&from=paste&height=162&id=u1937c43f&name=image.png&originHeight=162&originWidth=501&originalType=binary&ratio=1&rotation=0&showTitle=false&size=19545&status=done&style=none&taskId=uea443141-66f4-4919-b8f1-dcdfaaca50b&title=&width=501)
+```java
+String str = "www.zbdx.cn";
+//从下标4开始截取字符串
+System.out.println(str.substring(4));//zbdx.cn
+//截取下标为4-8的字符串
+System.out.println(str.substring(4,8));//zbdx
+
+```
+<a name="yRiqa"></a>
+### 其他方法
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679202912214-0a574cd9-248c-4a11-98bd-a653bf017336.png#averageHue=%23fafaf9&clientId=u150947cb-4235-4&from=paste&height=431&id=uac35773f&name=image.png&originHeight=431&originWidth=502&originalType=binary&ratio=1&rotation=0&showTitle=false&size=40997&status=done&style=none&taskId=uff471ada-bddd-4272-8263-d3cf273566e&title=&width=502)
+```java
+String strA = "www.mldn.cn";
+//字符串的连接
+String strB = "www.".concat("mldn").concat(".cn");
+System.out.println(strB);//www.mldn.cn
+System.out.println(strA==strB);//false
+
+String str = "";
+//判断是否为空
+System.out.println(str.isEmpty());//true
+
+String str = "  Hello World!  ";
+System.out.println(str.length());//19
+//去除左右两边空格,中间空格无法消除
+String trimStr = str.trim();
+System.out.println(str); //  Hello World!  
+System.out.println(trimStr); //Hello World!
+
+String str = "Hello World";
+//转大写
+System.out.println(str.toUpperCase());//HELLO WORLD
+//转小写
+System.out.println(str.toLowerCase());//hello world
+
+```
+<a name="aUgSK"></a>
+## 26、Scanner方法
+`Scanner`类的主要功能是简化文本扫描，这个类最实用的地方在**获取控制台输入。**<br />`Scanner`类里面有如下几种操作方法：
+
+- 构造：`public Scanner(InputStream source)`
+- 判断是否有数据：`public boolean hasNext()`
+- 取出数据：`public String next()`
+- 设置分隔符：`public Scanner useDelimiter(String pattern)`
+```java
+public static void main(String[] args) {
+    //实现键盘数据输入
+    Scanner scan = new Scanner(System.in);
+    System.out.print("请输入年龄:");
+    //判断是否有整数输入
+    if(scan.hasNextInt()) {
+        //直接获取数字
+        int age = scan.nextInt();
+        System.out.println("您的年龄:"+age);
+    }else {
+        System.out.println("输入格式错误！");
+    }
+    scan.close();
+}
+
+```
+```java
+public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    System.out.print("请输入信息:");
+    //判断是否有字符串输入
+    if(scan.hasNext()) {
+        //直接获取字符串
+        String msg = scan.next();
+        System.out.println("信息为:"+msg);
+    }
+    scan.close();
+}
+
+```
+使用正则进行判断：
+```java
+public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    System.out.print("请输入您的生日:");
+    //判断是否有生日输入
+    if(scan.hasNext("\\d{4}-\\d{2}-\\d{2}")) {
+        String str = scan.next();
+        System.out.println("生日为:"+str);
+    }else {
+        System.out.println("输入格式错误！");
+    }
+    scan.close();
+}
+
+```
+读取文件内容：
+```java
+public static void main(String[] args) throws FileNotFoundException {
+    Scanner scan = new Scanner(new File("D:"+File.separator+"mldn-info.txt"));;
+    scan.useDelimiter("\n");//设置读取分隔符
+    while(scan.hasNext()) {
+        System.out.println(scan.next());
+    }
+    scan.close();
+}
+
+```
+<a name="LdKom"></a>
+## 27、序列化
+所谓的序列化指的是将内存中保存的对象以二进制数据流的形式进行处理，可以实现对象的保存或者是网络传输。
+<a name="oRYk5"></a>
+### 对象序列化
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679203303624-4a17ea16-2a02-47ae-912a-c5e62dbebe03.png#averageHue=%23f4f2f1&clientId=u150947cb-4235-4&from=paste&height=223&id=uad9db5ca&name=image.png&originHeight=223&originWidth=870&originalType=binary&ratio=1&rotation=0&showTitle=false&size=98321&status=done&style=none&taskId=u6ec73e59-c2b4-4da6-918d-89e9e4292d4&title=&width=870)<br />然后并不是所有的对象都可以被系列化，在Java里面有一个强制性的要求：如果要序列化的对象，那么对象所在的类一定要实现`java.io.Serializable`父接口，作为序列化的标记，这个接口并没有任何的方法，因为他描述的是一种类的能力
+```java
+public class JavaAPIDemo{
+        public static void main(String[] args) {
+        }
+}
+    
+@SuppressWarnings("serial")
+//Person类可以被序列化
+class Person implements Serializable {
+    private String name;
+    private int age;
+
+    private Person(String name,int age) {
+        this.name = name;
+        this.age = age;
+    }
+    //setter、getter略
+    @Override
+    public String toString() {
+        return "姓名："+this.name + "年龄："+ this.age;
+    }
+}
+
+```
+此时`Person`类产生的每一个对象都可以实现二进制的数据传输，属于可以被序列化的程序类
+<a name="lObyq"></a>
+## 28、String类方法
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679203473759-59c79e7e-dbf8-485b-acf0-1cb267658929.png#averageHue=%23f9f8f6&clientId=u150947cb-4235-4&from=paste&height=802&id=u21731a32&name=image.png&originHeight=802&originWidth=504&originalType=binary&ratio=1&rotation=0&showTitle=false&size=129947&status=done&style=none&taskId=u0e9026ea-b22f-44e5-8b04-c668886bc99&title=&width=504)<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679203486007-a4587838-1cde-47d4-9789-01d1dd3dd02a.png#averageHue=%23faf8f6&clientId=u150947cb-4235-4&from=paste&height=873&id=ud335dae7&name=image.png&originHeight=873&originWidth=499&originalType=binary&ratio=1&rotation=0&showTitle=false&size=131870&status=done&style=none&taskId=ue591d3c7-000a-44c1-9c18-2abe6337875&title=&width=499)![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1679203499011-038c18cd-99c6-42ee-ac68-65b0cae9dce8.png#averageHue=%23f9f8f6&clientId=u150947cb-4235-4&from=paste&height=849&id=u411a7e4f&name=image.png&originHeight=849&originWidth=502&originalType=binary&ratio=1&rotation=0&showTitle=false&size=133097&status=done&style=none&taskId=u296062ce-3eb7-43e0-9d84-89361f10b14&title=&width=502)
+
+<a name="bgG6l"></a>
+## 29、定时任务Spring Task
+如果使用`Spring`或`Spring Boot`框架，可以直接使用`Spring Framework`自带的定时任务<br />以`Spring Boot`为例，实现定时任务只需要两步：
+
+1. 开启定时任务
+2. 添加定时任务
+<a name="Aciz9"></a>
+### 开启定时任务
+开启定时任务只需要在`Spring Boot`的启动类上声明`@EnableScheduling`即可
+```java
+@SpringBootApplication
+@EnableScheduling // 开启定时任务
+public class DemoApplication {
+    // do someing
+}
+
+```
+<a name="OugFu"></a>
+### 添加定时任务
+定时任务的添加只需要使用`@Scheduled`注解标注即可，如果有多个定时任务可以创建哎你多个`@Scheduled`注解标注的方法，
+```java
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+ 
+@Component // 把此类托管给 Spring，不能省略
+@ConditionalOnProperty(prefix = "opent.evaluationTimeout.scheduling", name = "enabled", havingValue = "true")//当某个组件没有属性可以控制是否在项目中动态的控制生效，则可以使用该注解
+public class TaskUtils {
+    // 添加定时任务
+    @Scheduled(cron = "59 59 23 0 0 5") // cron 表达式，每周五 23:59:59 执行
+    public void doTask(){
+        System.out.println("我是定时任务~");
+    }
+}
+
+```
+<a name="sFuNr"></a>
+## 30、Lambda表达式
+`Lambda`表达式是JDK1.8的一个新特性，可以取代大部分的匿名内部类，写出更优雅的Java代码，尤其是在集合的遍历和其他集合操作中，可以极大地优化代码结构。<br />JDK也提供了大量的内置函数式接口供我们使用，使得`Lambda`表达式的运用更加方便、高效。
+<a name="XkhZr"></a>
+### @FunctionlInterface
+修饰函数式接口的，要求接口中的抽象方法只有一个。这个注解往往会和`Lambda`表达式一起出现。
+<a name="IU0bS"></a>
+### Lambda基础语法
+```java
+/**多参数无返回*/
+@FunctionalInterface
+public interface NoReturnMultiParam {
+    void method(int a, int b);
+}
+
+/**无参无返回值*/
+@FunctionalInterface
+public interface NoReturnNoParam {
+    void method();
+}
+
+/**一个参数无返回*/
+@FunctionalInterface
+public interface NoReturnOneParam {
+    void method(int a);
+}
+
+/**多个参数有返回值*/
+@FunctionalInterface
+public interface ReturnMultiParam {
+    int method(int a, int b);
+}
+
+/*** 无参有返回*/
+@FunctionalInterface
+public interface ReturnNoParam {
+    int method();
+}
+
+/**一个参数有返回值*/
+@FunctionalInterface
+public interface ReturnOneParam {
+    int method(int a);
+}
+
+```
+语法形式为`() -> {}`，其中`()`用来描述参数列表，`{}`用来描述方法体，`->`为`Lambda运算符`，读作（goes to）
+```java
+import lambda.interfaces.*;
+
+public class Test1 {
+    public static void main(String[] args) {
+
+        //无参无返回
+        NoReturnNoParam noReturnNoParam = () -> {
+            System.out.println("NoReturnNoParam");
+        };
+        noReturnNoParam.method();
+
+        //一个参数无返回
+        NoReturnOneParam noReturnOneParam = (int a) -> {
+            System.out.println("NoReturnOneParam param:" + a);
+        };
+        noReturnOneParam.method(6);
+
+        //多个参数无返回
+        NoReturnMultiParam noReturnMultiParam = (int a, int b) -> {
+            System.out.println("NoReturnMultiParam param:" + "{" + a +"," + + b +"}");
+        };
+        noReturnMultiParam.method(6, 8);
+
+        //无参有返回值
+        ReturnNoParam returnNoParam = () -> {
+            System.out.print("ReturnNoParam");
+            return 1;
+        };
+
+        int res = returnNoParam.method();
+        System.out.println("return:" + res);
+
+        //一个参数有返回值
+        ReturnOneParam returnOneParam = (int a) -> {
+            System.out.println("ReturnOneParam param:" + a);
+            return 1;
+        };
+
+        int res2 = returnOneParam.method(6);
+        System.out.println("return:" + res2);
+
+        //多个参数有返回值
+        ReturnMultiParam returnMultiParam = (int a, int b) -> {
+            System.out.println("ReturnMultiParam param:" + "{" + a + "," + b +"}");
+            return 1;
+        };
+
+        int res3 = returnMultiParam.method(6, 8);
+        System.out.println("return:" + res3);
+    }
+}
+
+```
+<a name="bfsf1"></a>
+### Lambda语法简化
+```java
+public class Test2 {
+    public static void main(String[] args) {
+
+        //1.简化参数类型，可以不写参数类型，但是必须所有参数都不写
+        NoReturnMultiParam lamdba1 = (a, b) -> {
+            System.out.println("简化参数类型");
+        };
+        lamdba1.method(1, 2);
+
+        //2.简化参数小括号，如果只有一个参数则可以省略参数小括号
+        NoReturnOneParam lambda2 = a -> {
+            System.out.println("简化参数小括号");
+        };
+        lambda2.method(1);
+
+        //3.简化方法体大括号，如果方法条只有一条语句，则可以省略方法体大括号
+        NoReturnNoParam lambda3 = () -> System.out.println("简化方法体大括号");
+        lambda3.method();
+
+        //4.如果方法体只有一条语句，并且是 return 语句，则可以省略方法体大括号
+        ReturnOneParam lambda4 = a -> a+3;
+        System.out.println(lambda4.method(5));
+
+        ReturnMultiParam lambda5 = (a, b) -> a+b;
+        System.out.println(lambda5.method(1, 1));
+    }
+}
+
+```
+<a name="lsI2t"></a>
+### Lambda表达式常用示例
+有时候我们不是必须要字节重写某个匿名内部类的方法，我们可以利用`Lambda`表达式的接口快速指向一个已经被实现的方法。<br />`方法归属者::方法名` 静态方法的归属者为类名，普通方法归属者为对象
+```java
+public class Exe1 {
+    public static void main(String[] args) {
+        ReturnOneParam lambda1 = a -> doubleNum(a);
+        System.out.println(lambda1.method(3));
+
+        //lambda2 引用了已经实现的 doubleNum 方法
+        ReturnOneParam lambda2 = Exe1::doubleNum;
+        System.out.println(lambda2.method(3));
+
+        Exe1 exe = new Exe1();
+
+        //lambda4 引用了已经实现的 addTwo 方法
+        ReturnOneParam lambda4 = exe::addTwo;
+        System.out.println(lambda4.method(2));
+    }
+
+    /**
+     * 要求
+     * 1.参数数量和类型要与接口中定义的一致
+     * 2.返回值类型要与接口中定义的一致
+     */
+    public static int doubleNum(int a) {
+        return a * 2;
+    }
+
+    public int addTwo(int a) {
+        return a + 2;
+    }
+}
+
+```
+<a name="XRCG4"></a>
+### 构造方法的引用
+一般我们需要声明接口，该接口作为对象的生成器，通过`类名::new`的方式来实例化对象，然后调用方法返回对象
+```java
+interface ItemCreatorBlankConstruct {
+    Item getItem();
+}
+interface ItemCreatorParamContruct {
+    Item getItem(int id, String name, double price);
+}
+
+public class Exe2 {
+    public static void main(String[] args) {
+        ItemCreatorBlankConstruct creator = () -> new Item();
+        Item item = creator.getItem();
+
+        ItemCreatorBlankConstruct creator2 = Item::new;
+        Item item2 = creator2.getItem();
+
+        ItemCreatorParamContruct creator3 = Item::new;
+        Item item3 = creator3.getItem(112, "鼠标", 135.99);
+    }
+}
+
+```
+<a name="LLLYE"></a>
+### Lambda表达式创建线程
+我们以往都是通过创建`Thread`对象，然后通过匿名内部类重写`run()`方法，一提到匿名内部类我们就应该想到可以使用`Lambda`表达式简化线程的创建
+```java
+    Thread t = new Thread(() -> {
+      for (int i = 0; i < 10; i++) {
+        System.out.println(2 + ":" + i);
+      }
+    });
+      t.start();
+
+```
+<a name="dDaAc"></a>
+### 遍历集合
+```java
+@FunctionalInterface
+public interface Consumer<T> {
+    void accept(T t);
+    //....
+}
+
+ArrayList<Integer> list = new ArrayList<>();
+
+Collections.addAll(list, 1,2,3,4,5);
+
+//lambda表达式 方法引用
+list.forEach(System.out::println);
+
+list.forEach(element -> {
+if (element % 2 == 0) {
+    System.out.println(element);
+}
+});
+
+```
+<a name="JWePX"></a>
+## 31、BigDecimal
+Java在`java.math`包中提供的API类`BigDecimal`，用来对超过16为有效位的书进行精确的运算
+<a name="Ih6d5"></a>
+### 方法描述
+
+- `add(BigDecimal)` `BigDecimal`对象中的值相加，然后返回这个对象。
+- `subtract(BigDecimal)``BigDecimal`对象中的值相减，然后返回这个对象。
+- `multiply(BigDecimal)` `BigDecimal`对象中的值相乘，然后返回这个对象。
+- `divide(BigDecimal)` `BigDecimal`对象中的值相除，然后返回这个对象。
+- `toString()` 将`BigDecimal`对象的数值转换成字符串。
+- `doubleValue()` 将`BigDecimal`对象中的值以双精度数返回。
+- `floatValue()` 将`BigDecimal`对象中的值以单精度数返回。
+- `longValue()` 将`BigDecimal`对象中的值以长整数返回。
+- `intValue()` 将`BigDecimal`对象中的值以整数返回。
+<a name="gLwtN"></a>
+### 四舍五入
+
+- `BigDecimal.setScale()`方法用于格式化小数点
+- `setScale(1)`表示保留一位小数，默认用四舍五入方式
+- `setScale(1,BigDecimal.ROUND_DOWN)`直接删除多余的小数位，如2.35会变成2.3
+- `setScale(1,BigDecimal.ROUND_UP)`进位处理，2.35变成2.4
+- `setScale(1,BigDecimal.ROUND_HALF_UP)`四舍五入，2.35变成2.4
+- `setScaler(1,BigDecimal.ROUND_HALF_DOWN)`四舍五入，2.35变成2.3，如果是5则向下舍
+- `setScaler(1,BigDecimal.ROUND_CEILING)`接近正无穷大的舍入
+- `setScaler(1,BigDecimal.ROUND_FLOOR)`接近负无穷大的舍入，数字`>0`和`ROUND_UP`作用一样，数字`<0`和`ROUND_DOWN`作用一样
+- `setScaler(1,BigDecimal.ROUND_HALF_EVEN)`向最接近的数字舍入，如果与两个相邻数字的距离相等，则向相邻的偶数舍入。
+```java
+//保留两位小数并向上取整
+BigDecimal assemblyPrice = assemblyPrice.setScale(2,BigDecimal.ROUND_HALF_UP);
+
+```
+<a name="QlQo3"></a>
+### BigDecimal数据的比较
+此方法的返回类型为int，它可以返回任何给定值<br />`num.compareTo(BigDecimal.ZERO)==0` num等于0时，返回 0<br />`num.compareTo(BigDecimal.ZERO) > 0` num大于0时，返回 1<br />`num.compareTo(BigDecimal.ZERO) < 0` num小于0时，返回 -1
+<a name="FVGlU"></a>
+## 32、校验一个String类型的变量是否为空
+在校验一个String类的变量是否为空时，通常存在三种情况：
+
+- 是否为null
+- 是否为""
+- 是否为空字符串，如“ ”
+
+`StringUtils`的`isBlank()`方法可以一次性校验这三种情况，返回值都是true，否则为false
 
