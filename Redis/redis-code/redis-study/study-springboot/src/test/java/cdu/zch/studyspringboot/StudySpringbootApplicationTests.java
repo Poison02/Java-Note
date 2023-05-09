@@ -16,7 +16,6 @@ class StudySpringbootApplicationTests {
 
         redisTemplate.opsForValue().set("mykey", "hahaha");
         System.out.println(redisTemplate.opsForValue().get("mykey"));
-
     }
 
 }
