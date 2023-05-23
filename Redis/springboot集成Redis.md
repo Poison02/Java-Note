@@ -4,3 +4,27 @@ spring.redis.host=127.0.0.1
 spring.redis.port=6379
 ```
 3、测试<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/35204765/1681355962868-147aa29d-ec96-4d3e-a88b-4945a07948fe.png#averageHue=%23fefdfa&clientId=u74117efd-d604-4&from=paste&height=218&id=uc7bad5fc&name=image.png&originHeight=273&originWidth=621&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=105718&status=done&style=none&taskId=ud670e0a0-b733-4bf6-bce8-3da08705856&title=&width=496.8)<br />在传递对象时，对象需要序列化！<br />详细代码在同目录下的code里。
+
+
+
+# 补充
+
+本地连接远程的redis时，需要在远程的 `redis.conf`中做一些修改才能连接上。
+
+```sh
+vim redis.conf
+```
+
+找到 `daemonize` 改为 `yes`
+
+找到 `bind 127.0.0.1` 将其注释掉，增加 `bind 0.0.0.0`
+
+找到 `protected-mode` 改为 `no`
+
+找到 `requirepass`，解开注释，增加密码
+
+最后保存文件。重新运行`redis-server`
+
+一定要注意！云服务器的防火墙的`6379`端口一定要打开！！！
+
+在服务器上测试redis的，连接上之后都需要 `auth password`进行验证才能使用，本地连接的时候记得配置密码即可。
