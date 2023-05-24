@@ -8,7 +8,7 @@ set key value # 设置key-value
 
 exists key # 判断key是否存在
 
-move key db编号 # 移除key
+move key db编号 # 移动指定key到指定数据库
 
 expire key 时间（秒） # 设置key过期时间
 
