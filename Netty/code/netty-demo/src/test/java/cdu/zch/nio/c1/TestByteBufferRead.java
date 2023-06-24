@@ -1,8 +1,8 @@
-package cdu.zch.netty.c1;
+package cdu.zch.nio.c1;
 
 import java.nio.ByteBuffer;
 
-import static cdu.zch.netty.c1.ByteBufferUtil.debugAll;
+import static cdu.zch.nio.c1.ByteBufferUtil.debugAll;
 
 /**
  * @author Zch

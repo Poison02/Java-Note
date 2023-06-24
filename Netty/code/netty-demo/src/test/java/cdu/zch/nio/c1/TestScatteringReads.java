@@ -1,11 +1,9 @@
-package cdu.zch.netty.c1;
+package cdu.zch.nio.c1;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-
-import static cdu.zch.netty.c1.ByteBufferUtil.debugAll;
 
 /**
  * @author Zch
@@ -22,9 +20,9 @@ public class TestScatteringReads {
             buffer1.flip();
             buffer2.flip();
             buffer3.flip();
-            debugAll(buffer1);
-            debugAll(buffer2);
-            debugAll(buffer3);
+            ByteBufferUtil.debugAll(buffer1);
+            ByteBufferUtil.debugAll(buffer2);
+            ByteBufferUtil.debugAll(buffer3);
         } catch (IOException e) {
         }
     }

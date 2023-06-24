@@ -1,8 +1,6 @@
-package cdu.zch.netty.c1;
+package cdu.zch.nio.c1;
 
 import java.nio.ByteBuffer;
-
-import static cdu.zch.netty.c1.ByteBufferUtil.debugAll;
 
 /**
  * @author Zch
@@ -42,7 +40,7 @@ public class TestByteBufferExam {
                 for (int j = 0; j < length; j++) {
                     buffer.put(source.get());
                 }
-                debugAll(buffer);
+                ByteBufferUtil.debugAll(buffer);
             }
         }
         // 切换回写模式，但是不能丢掉内容
