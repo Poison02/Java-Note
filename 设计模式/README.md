@@ -2,6 +2,8 @@
 
 参考地址：[https://datawhalechina.github.io/sweetalk-design-pattern/#/README](https://datawhalechina.github.io/sweetalk-design-pattern/#/README)
 
+地址2：[https://zq99299.github.io/note-book/imocc/design_pattern/03_design_principles/](https://zq99299.github.io/note-book/imocc/design_pattern/03_design_principles/)
+
 参考GitHub地址：[https://github.com/datawhalechina/sweetalk-design-pattern](https://github.com/datawhalechina/sweetalk-design-pattern)
 
 大部分内容应该都会copy，自己也处于学习阶段，会不断学习的。后期会不断学习更正.
@@ -75,6 +77,10 @@
 ### [里氏替换原则](./page/设计原则/里氏替换原则.md)
 
 ### [迪米特法则](./page/设计原则/迪米特法则.md)
+
+### [接口隔离原则](./page/设计原则/接口隔离原则.md)
+
+### [合成复用原则](./page/设计原则/合成复用原则.md)
 
 ## 设计模式
 
