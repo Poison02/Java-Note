@@ -1,0 +1,5 @@
+irpc:
+  serverPort: 9093
+  registerAddr: localhost:2181
+  applicationName: irpc-provider
+  proxyType: jdk

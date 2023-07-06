@@ -3,6 +3,8 @@ package cdu.zch.rpc.core.common;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import static cdu.zch.rpc.core.common.constants.RpcConstants.MAGIC_NUMBER;
+
 /**
  * @author Zch
  * @date 2023/7/6

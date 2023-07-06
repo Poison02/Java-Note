@@ -5,7 +5,14 @@ import cdu.zch.rpc.core.common.RpcEncoder;
 import cdu.zch.rpc.core.common.RpcInvocation;
 import cdu.zch.rpc.core.common.RpcProtocol;
 import cdu.zch.rpc.core.common.config.ClientConfig;
+import cdu.zch.rpc.core.common.config.PropertiesBootstrap;
+import cdu.zch.rpc.core.common.event.IRpcListenerLoader;
+import cdu.zch.rpc.core.common.utils.CommonUtils;
+import cdu.zch.rpc.core.proxy.javassist.JavassistProxyFactory;
 import cdu.zch.rpc.core.proxy.jdk.JDKProxyFactory;
+import cdu.zch.rpc.core.registry.URL;
+import cdu.zch.rpc.core.registry.zookeeper.AbstractRegister;
+import cdu.zch.rpc.core.registry.zookeeper.ZookeeperRegister;
 import cdu.zch.rpc.interfaces.DataService;
 import com.alibaba.fastjson.JSON;
 import io.netty.bootstrap.Bootstrap;
@@ -17,6 +24,9 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
 import static cdu.zch.rpc.core.common.cache.CommonClientCache.*;
 
 /**
@@ -25,82 +35,116 @@ import static cdu.zch.rpc.core.common.cache.CommonClientCache.*;
  **/
 public class Client {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Client.class);
+    private Logger logger = LoggerFactory.getLogger(Client.class);
 
     public static EventLoopGroup clientGroup = new NioEventLoopGroup();
 
     private ClientConfig clientConfig;
 
+    private AbstractRegister abstractRegister;
+
+    private IRpcListenerLoader iRpcListenerLoader;
+
+    private Bootstrap bootstrap = new Bootstrap();
+
+    public Bootstrap getBootstrap() {
+        return bootstrap;
+    }
+
     public ClientConfig getClientConfig() {
         return clientConfig;
     }
+
 
     public void setClientConfig(ClientConfig clientConfig) {
         this.clientConfig = clientConfig;
     }
 
-    public RpcReference startClientApplication() throws InterruptedException {
+    public RpcReference initClientApplication() {
         EventLoopGroup clientGroup = new NioEventLoopGroup();
-        Bootstrap bootstrap = new Bootstrap();
-        bootstrap
-                .group(clientGroup)
-                .channel(NioSocketChannel.class)
-                .handler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    protected void initChannel(SocketChannel ch) throws Exception {
-                        // 管道中初始化一些逻辑，这里包含了上边所说的编解码器和客户端响应类
-                        ch.pipeline()
-                                .addLast(new RpcEncoder())
-                                .addLast(new RpcDecoder())
-                                .addLast(new ClientHandler());
-                    }
-                });
-
-        // 常规的链接netty服务端
-        ChannelFuture channelFuture = bootstrap.connect(clientConfig.getServerAddr(), clientConfig.getPort()).sync();
-        LOGGER.debug("====客户端启动====");
-        this.startClient(channelFuture);
-        // 这里注入了一个代理工厂
-        /*
-        客户端首先需要通过一个代理工厂获取被调用对象的代理对象，
-        然后通过代理对象将数据放入发送队列，
-        最后会有一个异步线程将发送队列内部的数据一个个地发送给到服务端，
-        并且等待服务端响应对应的数据结果。
-         */
-        RpcReference reference = new RpcReference(new JDKProxyFactory());
-        return reference;
+        bootstrap.group(clientGroup);
+        bootstrap.channel(NioSocketChannel.class);
+        bootstrap.handler(new ChannelInitializer<SocketChannel>() {
+            @Override
+            protected void initChannel(SocketChannel ch) throws Exception {
+                ch.pipeline().addLast(new RpcEncoder());
+                ch.pipeline().addLast(new RpcDecoder());
+                ch.pipeline().addLast(new ClientHandler());
+            }
+        });
+        iRpcListenerLoader = new IRpcListenerLoader();
+        iRpcListenerLoader.init();
+        this.clientConfig = PropertiesBootstrap.loadClientConfigFromLocal();
+        RpcReference rpcReference;
+        if ("javassist".equals(clientConfig.getProxyType())) {
+            rpcReference = new RpcReference(new JavassistProxyFactory());
+        } else {
+            rpcReference = new RpcReference(new JDKProxyFactory());
+        }
+        return rpcReference;
     }
 
     /**
-     * 开启发送线程，专门从事将数据包发送给服务端，起到一个解耦的效果
-     * @param channelFuture
+     * 启动服务之前需要预先订阅对应的dubbo服务
+     *
+     * @param serviceBean
      */
-    private void startClient(ChannelFuture channelFuture) {
-        Thread asyncSendJob = new Thread(new AsyncSendJob(channelFuture));
+    public void doSubscribeService(Class serviceBean) {
+        if (abstractRegister == null) {
+            abstractRegister = new ZookeeperRegister(clientConfig.getRegisterAddr());
+        }
+        URL url = new URL();
+        url.setApplicationName(clientConfig.getApplicationName());
+        url.setServiceName(serviceBean.getName());
+        url.addParameter("host", CommonUtils.getIpAddress());
+        abstractRegister.subscribe(url);
+    }
+
+    /**
+     * 开始和各个provider建立连接
+     */
+    public void doConnectServer() {
+        for (String providerServiceName : SUBSCRIBE_SERVICE_LIST) {
+            List<String> providerIps = abstractRegister.getProviderIps(providerServiceName);
+            for (String providerIp : providerIps) {
+                try {
+                    ConnectionHandler.connect(providerServiceName, providerIp);
+                } catch (InterruptedException e) {
+                    logger.error("[doConnectServer] connect fail ", e);
+                }
+            }
+            URL url = new URL();
+            url.setServiceName(providerServiceName);
+            //客户端在此新增一个订阅的功能
+            abstractRegister.doAfterSubscribe(url);
+        }
+    }
+
+
+    /**
+     * 开启发送线程
+     *
+     * @param
+     */
+    public void startClient() {
+        Thread asyncSendJob = new Thread(new AsyncSendJob());
         asyncSendJob.start();
     }
 
-    /**
-     * 异步发送信息
-     */
     class AsyncSendJob implements Runnable {
 
-        private ChannelFuture channelFuture;
-
-        public AsyncSendJob(ChannelFuture channelFuture) {
-            this.channelFuture = channelFuture;
+        public AsyncSendJob() {
         }
 
         @Override
         public void run() {
             while (true) {
                 try {
-                    // 阻塞模式
+                    //阻塞模式
                     RpcInvocation data = SEND_QUEUE.take();
                     String json = JSON.toJSONString(data);
-                    // 将RpcInvocation封装到RpcProtocol对象中，然后发送给服务端，这里正好对应了上文中的ServerHandler
                     RpcProtocol rpcProtocol = new RpcProtocol(json.getBytes());
-                    // netty的通道负责发送数据给服务端
+                    ChannelFuture channelFuture = ConnectionHandler.getChannelFuture(data.getTargetServiceName());
                     channelFuture.channel().writeAndFlush(rpcProtocol);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -109,18 +153,23 @@ public class Client {
         }
     }
 
+
     public static void main(String[] args) throws Throwable {
         Client client = new Client();
-        ClientConfig clientConfig = new ClientConfig();
-        clientConfig.setPort(9090);
-        clientConfig.setServerAddr("localhost");
-        client.setClientConfig(clientConfig);
-        RpcReference reference = client.startClientApplication();
-        DataService dataService = reference.get(DataService.class);
+        RpcReference rpcReference = client.initClientApplication();
+        DataService dataService = rpcReference.get(DataService.class);
+        client.doSubscribeService(DataService.class);
+        ConnectionHandler.setBootstrap(client.getBootstrap());
+        client.doConnectServer();
+        client.startClient();
         for (int i = 0; i < 100; i++) {
-            String result = dataService.sendData("test");
-            System.out.println(result);
-
+            try {
+                String result = dataService.sendData("test");
+                System.out.println(result);
+                Thread.sleep(1000);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -21,6 +21,9 @@
         <jboss-marshalling-serial.version>2.1.1.Final</jboss-marshalling-serial.version>
         <slf4j-api.version>2.0.7</slf4j-api.version>
         <javassist.version>3.29.0-GA</javassist.version>
+        <curator-framework.version>4.2.0</curator-framework.version>
+        <zookeeper.version>3.8.0</zookeeper.version>
+        <zkclient.version>0.11</zkclient.version>
     </properties>
 
     <dependencies>
@@ -32,6 +35,22 @@
         </dependency>
 
         <!--下面是所需依赖-->
+        <!-- https://mvnrepository.com/artifact/com.101tec/zkclient -->
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>${zkclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>${zookeeper.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>${curator-framework.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
