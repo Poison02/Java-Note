@@ -1,5 +1,11 @@
 本项目现正处于学习状态...
 
+**重要！！！**
+
+**设计模式相关代码：**[code](./code/designpattern)
+
+**相关笔记**：[语雀笔记](https://www.yuque.com/poison02/vkw8bi)
+
 参考地址：[https://datawhalechina.github.io/sweetalk-design-pattern/#/README](https://datawhalechina.github.io/sweetalk-design-pattern/#/README)
 
 地址2：[https://zq99299.github.io/note-book/imocc/design_pattern/03_design_principles/](https://zq99299.github.io/note-book/imocc/design_pattern/03_design_principles/)
