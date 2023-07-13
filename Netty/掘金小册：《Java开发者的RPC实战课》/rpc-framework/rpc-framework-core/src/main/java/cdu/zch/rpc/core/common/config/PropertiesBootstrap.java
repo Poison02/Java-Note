@@ -19,7 +19,7 @@ public class PropertiesBootstrap {
         try {
             PropertiesLoader.loadConfiguration();
         } catch (IOException e) {
-            throw new RuntimeException("loadServerConfigFromLocal fail,e is {}", e);
+            throw new RuntimeException("loadServerConfigFromLocal fail,e is " + e);
         }
         ServerConfig serverConfig = new ServerConfig();
         serverConfig.setServerPort(PropertiesLoader.getPropertiesInteger(SERVER_PORT));
