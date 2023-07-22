@@ -1,11 +1,11 @@
-package cdu.zch.demo04;
+package cdu.zch.demo02.bytebuf;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 
 /**
  * @author Zch
- * @date 2023/7/6
+ * @date 2023/7/22
  **/
 public class ByteBufTest {
 
@@ -45,6 +45,7 @@ public class ByteBufTest {
         byte[] dst = new byte[buffer.readableBytes()];
         buffer.readBytes(dst);
         print("readBytes(" + dst.length + ")", buffer);
+
     }
 
     private static void print(String action, ByteBuf buffer) {

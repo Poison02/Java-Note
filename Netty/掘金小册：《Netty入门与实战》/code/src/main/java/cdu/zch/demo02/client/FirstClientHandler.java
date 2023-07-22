@@ -1,4 +1,4 @@
-package cdu.zch.demo03;
+package cdu.zch.demo02.client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,12 +10,11 @@ import java.util.Date;
 
 /**
  * @author Zch
- * @date 2023/7/6
+ * @date 2023/7/22
  **/
-public class ClientHandler extends ChannelInboundHandlerAdapter {
+public class FirstClientHandler extends ChannelInboundHandlerAdapter {
 
-    // 客户端连接成功之后被调用
-    @Override // 向服务端写数据
+    @Override
     public void channelActive(ChannelHandlerContext ctx) {
         System.out.println(new Date() + ": 客户端写出数据");
 
@@ -27,7 +26,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     }
 
     private ByteBuf getByteBuf(ChannelHandlerContext ctx) {
-        byte[] bytes = "你好!!!".getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = "你好!".getBytes(StandardCharsets.UTF_8);
 
         ByteBuf buffer = ctx.alloc().buffer();
 
@@ -37,7 +36,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     }
 
 
-    @Override // 服务端读取数据
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         ByteBuf byteBuf = (ByteBuf) msg;
 

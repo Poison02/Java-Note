@@ -1,4 +1,4 @@
-package cdu.zch.demo03;
+package cdu.zch.demo03.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -9,7 +9,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
  * @author Zch
- * @date 2023/7/6
+ * @date 2023/7/22
  **/
 public class NettyServer {
 
@@ -28,21 +28,21 @@ public class NettyServer {
                 .childOption(ChannelOption.TCP_NODELAY, true)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
-                    protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
-                        nioSocketChannel.pipeline().addLast(new ServerHandler());
+                    protected void initChannel(NioSocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(new ServerHandler());
                     }
                 });
 
         bind(serverBootstrap, PORT);
-
     }
 
-    private static void bind(final  ServerBootstrap serverBootstrap, final int port) {
+    private static void bind(final ServerBootstrap serverBootstrap, final int port) {
         serverBootstrap.bind(port).addListener(future -> {
             if (future.isSuccess()) {
-                System.out.println("端口" + port + "绑定成功");
+                System.out.println("端口[" + port + "]绑定成功");
             } else {
-                System.out.println("端口" + port + "绑定失败");
+                System.out.println("端口[" + port + "]绑定失败");
+                bind(serverBootstrap, port);
             }
         });
     }
