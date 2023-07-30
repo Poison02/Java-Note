@@ -7,9 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="singleton" />
-        <module name="builder" />
         <module name="factory-method" />
         <module name="adapter" />
+        <module name="builder" />
+        <module name="bridge" />
         <module name="prototype" />
         <module name="abstract-factory" />
       </profile>

@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/builder/pom.xml" />
         <option value="$PROJECT_DIR$/prototype/pom.xml" />
         <option value="$PROJECT_DIR$/adapter/pom.xml" />
+        <option value="$PROJECT_DIR$/bridge/pom.xml" />
       </list>
     </option>
   </component>
