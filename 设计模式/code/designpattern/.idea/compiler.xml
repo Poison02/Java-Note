@@ -9,6 +9,7 @@
         <module name="singleton" />
         <module name="factory-method" />
         <module name="adapter" />
+        <module name="composite" />
         <module name="builder" />
         <module name="bridge" />
         <module name="prototype" />
