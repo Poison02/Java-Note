@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="MavenRunner">
-    <option name="jreName" value="1.8" />
-    <option name="vmOptions" value="-DarchetypeCatalog=internal" />
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/数据结构/code/data-structure/pom.xml" />
+        <option value="$PROJECT_DIR$/设计模式/code/designpattern/adapter/pom.xml" />
+        <option value="$PROJECT_DIR$/设计模式/code/designpattern/builder/pom.xml" />
+        <option value="$PROJECT_DIR$/设计模式/code/designpattern/prototype/pom.xml" />
+        <option value="$PROJECT_DIR$/设计模式/code/designpattern/singleton/pom.xml" />
+        <option value="$PROJECT_DIR$/设计模式/code/designpattern/factory-method/pom.xml" />
+        <option value="$PROJECT_DIR$/设计模式/code/designpattern/abstract-factory/pom.xml" />
+        <option value="$PROJECT_DIR$/设计模式/code/design-pattern/pom.xml" />
+        <option value="$PROJECT_DIR$/Netty/code/netty-demo/pom.xml" />
+        <option value="$PROJECT_DIR$/Netty/掘金小册：《Netty入门与实战》/code/pom.xml" />
+        <option value="$PROJECT_DIR$/Netty/掘金小册：《Netty入门与实战》/flash-netty/pom.xml" />
+        <option value="$PROJECT_DIR$/Netty/掘金小册：《Java开发者的RPC实战课》/rpc-framework/pom.xml" />
+        <option value="$PROJECT_DIR$/Redis/redis-code/redis-study/pom.xml" />
+        <option value="$PROJECT_DIR$/Java-并发/java-thread-code/demo-01/pom.xml" />
+        <option value="$PROJECT_DIR$/数据结构-Java实现/data-structure/pom.xml" />
+        <option value="$PROJECT_DIR$/common-code-snippets/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

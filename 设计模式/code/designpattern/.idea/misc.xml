@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/adapter/pom.xml" />
         <option value="$PROJECT_DIR$/bridge/pom.xml" />
         <option value="$PROJECT_DIR$/composite/pom.xml" />
+        <option value="$PROJECT_DIR$/decorator/pom.xml" />
       </list>
     </option>
   </component>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="singleton" />
+        <module name="adapter" />
+        <module name="netty-demo" />
+        <module name="code" />
+        <module name="data-structure (1)" />
+        <module name="flash-netty" />
+        <module name="common-code-snippets" />
+        <module name="simple-factory-pattern" />
+        <module name="rpc-framework-consumer" />
+        <module name="rpc-framework-core" />
+        <module name="prototype" />
+        <module name="study-jedis" />
+        <module name="abstract-factory" />
+        <module name="rpc-framework-interface" />
+        <module name="demo-01" />
+        <module name="factory-method" />
+        <module name="rpc-framework-provider" />
+        <module name="builder" />
+        <module name="data-structure (2)" />
+        <module name="factory-method-pattern" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="data-structure" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
