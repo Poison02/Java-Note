@@ -15,6 +15,7 @@
         <module name="facade" />
         <module name="bridge" />
         <module name="prototype" />
+        <module name="flyweight" />
         <module name="abstract-factory" />
       </profile>
     </annotationProcessing>
