@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="singleton" />
         <module name="factory-method" />
+        <module name="proxy" />
         <module name="decorator" />
         <module name="adapter" />
         <module name="composite" />
