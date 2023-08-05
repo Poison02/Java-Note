@@ -16,6 +16,7 @@
         <option value="$PROJECT_DIR$/facade/pom.xml" />
         <option value="$PROJECT_DIR$/flyweight/pom.xml" />
         <option value="$PROJECT_DIR$/proxy/pom.xml" />
+        <option value="$PROJECT_DIR$/chain/pom.xml" />
       </list>
     </option>
   </component>

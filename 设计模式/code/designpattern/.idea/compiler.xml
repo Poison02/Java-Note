@@ -7,17 +7,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="singleton" />
-        <module name="factory-method" />
-        <module name="proxy" />
         <module name="decorator" />
+        <module name="chain" />
         <module name="adapter" />
-        <module name="composite" />
-        <module name="builder" />
         <module name="facade" />
-        <module name="bridge" />
         <module name="prototype" />
         <module name="flyweight" />
         <module name="abstract-factory" />
+        <module name="factory-method" />
+        <module name="proxy" />
+        <module name="composite" />
+        <module name="builder" />
+        <module name="bridge" />
       </profile>
     </annotationProcessing>
   </component>
