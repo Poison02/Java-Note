@@ -21,6 +21,7 @@
         <module name="composite" />
         <module name="builder" />
         <module name="bridge" />
+        <module name="mediator" />
       </profile>
     </annotationProcessing>
   </component>
