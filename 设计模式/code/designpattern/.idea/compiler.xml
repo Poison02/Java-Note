@@ -11,6 +11,7 @@
         <module name="chain" />
         <module name="adapter" />
         <module name="facade" />
+        <module name="memento" />
         <module name="prototype" />
         <module name="flyweight" />
         <module name="command" />
