@@ -18,6 +18,7 @@
         <module name="abstract-factory" />
         <module name="factory-method" />
         <module name="proxy" />
+        <module name="observer" />
         <module name="iterator" />
         <module name="composite" />
         <module name="builder" />
