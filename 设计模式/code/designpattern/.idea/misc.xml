@@ -26,6 +26,7 @@
         <option value="$PROJECT_DIR$/mediator/pom.xml" />
         <option value="$PROJECT_DIR$/memento/pom.xml" />
         <option value="$PROJECT_DIR$/observer/pom.xml" />
+        <option value="$PROJECT_DIR$/state/pom.xml" />
       </list>
     </option>
   </component>
