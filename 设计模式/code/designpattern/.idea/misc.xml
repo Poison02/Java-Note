@@ -27,6 +27,7 @@
         <option value="$PROJECT_DIR$/memento/pom.xml" />
         <option value="$PROJECT_DIR$/observer/pom.xml" />
         <option value="$PROJECT_DIR$/state/pom.xml" />
+        <option value="$PROJECT_DIR$/strategy/pom.xml" />
       </list>
     </option>
   </component>

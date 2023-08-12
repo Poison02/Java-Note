@@ -25,6 +25,7 @@
         <module name="bridge" />
         <module name="state" />
         <module name="mediator" />
+        <module name="strategy" />
       </profile>
     </annotationProcessing>
   </component>
