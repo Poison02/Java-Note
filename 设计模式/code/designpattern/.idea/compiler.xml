@@ -27,6 +27,7 @@
         <module name="state" />
         <module name="mediator" />
         <module name="strategy" />
+        <module name="visitor" />
       </profile>
     </annotationProcessing>
   </component>
